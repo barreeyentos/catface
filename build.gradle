@@ -41,3 +41,7 @@ sourceSets {
     java.srcDirs 'src/test/java', 'src/integration/java'
   }
 }
+
+bootRun {
+  environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: "dev"
+}
