@@ -28,6 +28,12 @@ The above will run the server locally and expose the APIs on port :8080
 
 Optionally you can run the server as a docker container via the provided Dockerfile
 
+```bash
+docker build -t catface:latest .
+docker run -p 8080:8080 --name catface catface:latest
+```
+The above will build a local image and run it mapping port 8080
+
 ## Configuration
 
 The application has a few configurable parameters found in `src/main/resources/config/application.yml`
