@@ -1,0 +1,43 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.9.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'catface'
+	version = '1.0.0'
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    	compile 'ch.qos.logback:logback-core:1.1.9'
+    	compile 'ch.qos.logback:logback-access:1.1.9'
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+	compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-web-services'
+	compile 'org.slf4j:slf4j-api:1.7.22'
+    	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+sourceSets {
+  test {
+    java.srcDirs 'src/test/java', 'src/integration/java'
+  }
+}
