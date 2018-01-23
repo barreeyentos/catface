@@ -3,3 +3,12 @@ decompose:
   height: 13
   widthFactor: 0.10
   heightFactor: 0.10
+management:
+  security:
+    enabled: true
+security:
+  basic:
+    enabled: true
+  user:
+    name:
+    password:
