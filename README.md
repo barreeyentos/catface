@@ -74,7 +74,7 @@ There is a provided sample request in the `postman_collection` folder.  Import i
 {
 	"catFaces": [
 		{
-			"confidence": .95
+			"confidence": 0.95,
 			"position": {
 				"x": 0,
 				"y": 0
