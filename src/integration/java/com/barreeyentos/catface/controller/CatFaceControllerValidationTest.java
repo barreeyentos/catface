@@ -25,7 +25,7 @@ public class CatFaceControllerValidationTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void testEmptyImage() {
+    public void testEmptyImageUrl() {
 
         CatFaceRequest request = new CatFaceRequest();
 
@@ -39,7 +39,7 @@ public class CatFaceControllerValidationTest {
     public void testNegativeThreshold() {
 
         CatFaceRequest request = new CatFaceRequest();
-        request.setImage(CatFacesImages.PERFECT_CAT);
+        request.setImageUrl("file://catimage.txt");
         request.setConfidenceThreshold(-0.10f);
 
         ResponseEntity<CatFaceList> result = restTemplate.postForEntity(CAT_FACE_URL, request, CatFaceList.class);
@@ -52,7 +52,7 @@ public class CatFaceControllerValidationTest {
     public void testTooLargeThreshold() {
 
         CatFaceRequest request = new CatFaceRequest();
-        request.setImage(CatFacesImages.PERFECT_CAT);
+        request.setImageUrl("file://catimage.txt");
         request.setConfidenceThreshold(1.10f);
 
         ResponseEntity<CatFaceList> result = restTemplate.postForEntity(CAT_FACE_URL, request, CatFaceList.class);

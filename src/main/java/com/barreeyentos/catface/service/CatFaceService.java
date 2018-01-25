@@ -26,18 +26,23 @@ public class CatFaceService {
     private CatMatcher catMatcher;
     private ImageDecomposer imageDecomposer;
     private ImageNormalizer imageNormalizer;
+    private ImageFetcher imageFetcher;
 
     @Autowired
-    public CatFaceService(CatMatcher catMatcher, ImageDecomposer imageDecomposer, ImageNormalizer imageNormalizer) {
+    public CatFaceService(CatMatcher catMatcher, ImageDecomposer imageDecomposer, ImageNormalizer imageNormalizer,
+            ImageFetcher imageFetcher) {
         this.catMatcher = catMatcher;
         this.imageDecomposer = imageDecomposer;
         this.imageNormalizer = imageNormalizer;
+        this.imageFetcher = imageFetcher;
     }
 
     public List<CatFace> findCatFaces(CatFaceRequest catfaceRequest) {
         List<CatFace> allResults = new ArrayList<>();
 
-        char[][] normalizedImage = imageNormalizer.normalize(catfaceRequest.getImage());
+        char[][] rawImage = imageFetcher.fetch(catfaceRequest.getImageUrl());
+
+        char[][] normalizedImage = imageNormalizer.normalize(rawImage);
         logger.info("CatFaceService: analyzing {} x {} (w x h) image with min threshold of {}",
                 normalizedImage[0].length, normalizedImage.length, catfaceRequest.getConfidenceThreshold());
 

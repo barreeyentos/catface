@@ -18,6 +18,8 @@ This builds a standalone jar found in the bin directory
 
 ## Run
 
+Before running make sure to either set your security username and password in environment files or the application.yml
+
 The easiest way to run the server is to run it locally using the spring boot gradle plugin
 
 ```
@@ -54,16 +56,13 @@ There is a provided sample request in the `postman_collection` folder.  Import i
 ```json
 {
   "confidenceThreshold": 0.85,
-  "image": [["+"," "," ","+"],
-			["+","+","+","+"],
-			["+"," "," ","+"],
-			[" ","+","+"," "]]
+  "imageUrl": "https://somewebsite.com/catimage.txt"
 }
 ```
 
 `confidenceThreshold:` Defines the minimum confidence needed to elicit a catface response.  This value must be a double between **0.0 - 1.0** inclusive.
 
-`image:` This is a matrix of single characters that represent an image to find cat faces in.  This must be present and cannot be null.
+`imageUrl:` This is the location of the cat image to analyze.  This can either be online "http://" or local file "file://".
 
 **Successful Response:** 
 `Status:` 200
@@ -88,10 +87,14 @@ A successful response can send zero or more found cat faces with their associate
 
 **Note:** the position represents the top left corner of where the cat face was found within the original image.  The image is a 0-indexed array where x=0, y=0 is the first character of the image.
 
-**Unsuccessful Response:**
+**Unsuccessful Responses:**
 `Status`: 400
 
-Unsuccessful responses are returned for either invalid confidence thresholds or invalid images.
+Unsuccessful responses with 400 response codes are returned for either invalid confidence thresholds or missing imageURL.
+
+`Status`: 422
+
+Unsuccessful responses with 422 response codes indicate the given imageUrl could not be reached or read successufully. 
 
 
 

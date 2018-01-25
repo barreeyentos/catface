@@ -1,7 +1,5 @@
 package com.barreeyentos.catface.dto;
 
-import java.util.Arrays;
-
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -22,7 +20,7 @@ public class CatFaceRequest {
     private float confidenceThreshold;
 
     @NotNull
-    private char[][] image;
+    private String imageUrl;
 
     public float getConfidenceThreshold() {
         return confidenceThreshold;
@@ -32,20 +30,20 @@ public class CatFaceRequest {
         this.confidenceThreshold = confidenceThreshold;
     }
 
-    public char[][] getImage() {
-        return image;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImage(char[][] image) {
-        this.image = image;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode(image);
         result = prime * result + Float.floatToIntBits(confidenceThreshold);
+        result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
         return result;
     }
 
@@ -58,16 +56,19 @@ public class CatFaceRequest {
         if (getClass() != obj.getClass())
             return false;
         CatFaceRequest other = (CatFaceRequest) obj;
-        if (!Arrays.equals(image, other.image))
-            return false;
         if (Float.floatToIntBits(confidenceThreshold) != Float.floatToIntBits(other.confidenceThreshold))
+            return false;
+        if (imageUrl == null) {
+            if (other.imageUrl != null)
+                return false;
+        } else if (!imageUrl.equals(other.imageUrl))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "CatFaceRequest [confidenceThreshold=" + confidenceThreshold + ", image=" + Arrays.toString(image) + "]";
+        return "CatFaceRequest [confidenceThreshold=" + confidenceThreshold + ", imageUrl=" + imageUrl + "]";
     }
 
 }
