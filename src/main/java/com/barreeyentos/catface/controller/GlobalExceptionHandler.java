@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.barreeyentos.catface.exception.InvalidRequestException;
 import com.barreeyentos.catface.exception.UnreachableImageException;
 
 @ResponseBody
@@ -15,6 +16,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(UnreachableImageException.class)
     public void handleUnreachableImage() {
+        // Nothing to do
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidRequestException.class)
+    public void handleInvalidImageRequest() {
         // Nothing to do
     }
 }

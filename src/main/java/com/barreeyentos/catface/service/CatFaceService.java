@@ -40,7 +40,12 @@ public class CatFaceService {
     public List<CatFace> findCatFaces(CatFaceRequest catfaceRequest) {
         List<CatFace> allResults = new ArrayList<>();
 
-        char[][] rawImage = imageFetcher.fetch(catfaceRequest.getImageUrl());
+        char[][] rawImage = new char[0][0];
+        if (Objects.nonNull(catfaceRequest.getImageUrl())) {
+            rawImage = imageFetcher.fetch(catfaceRequest.getImageUrl());
+        } else {
+            rawImage = catfaceRequest.getImage();
+        }
 
         char[][] normalizedImage = imageNormalizer.normalize(rawImage);
         logger.info("CatFaceService: analyzing {} x {} (w x h) image with min threshold of {}",

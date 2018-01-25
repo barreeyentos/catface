@@ -1,8 +1,9 @@
 package com.barreeyentos.catface.dto;
 
+import java.util.Arrays;
+
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotNull;
 
 /*
  * CatFaceRequest is what is expected as the request to this service
@@ -19,8 +20,8 @@ public class CatFaceRequest {
     @DecimalMin("0.0")
     private float confidenceThreshold;
 
-    @NotNull
     private String imageUrl;
+    private char[][] image;
 
     public float getConfidenceThreshold() {
         return confidenceThreshold;
@@ -38,11 +39,20 @@ public class CatFaceRequest {
         this.imageUrl = imageUrl;
     }
 
+    public char[][] getImage() {
+        return image;
+    }
+
+    public void setImage(char[][] image) {
+        this.image = image;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + Float.floatToIntBits(confidenceThreshold);
+        result = prime * result + Arrays.deepHashCode(image);
         result = prime * result + ((imageUrl == null) ? 0 : imageUrl.hashCode());
         return result;
     }
@@ -58,6 +68,8 @@ public class CatFaceRequest {
         CatFaceRequest other = (CatFaceRequest) obj;
         if (Float.floatToIntBits(confidenceThreshold) != Float.floatToIntBits(other.confidenceThreshold))
             return false;
+        if (!Arrays.deepEquals(image, other.image))
+            return false;
         if (imageUrl == null) {
             if (other.imageUrl != null)
                 return false;
@@ -68,7 +80,8 @@ public class CatFaceRequest {
 
     @Override
     public String toString() {
-        return "CatFaceRequest [confidenceThreshold=" + confidenceThreshold + ", imageUrl=" + imageUrl + "]";
+        return "CatFaceRequest [confidenceThreshold=" + confidenceThreshold + ", imageUrl=" + imageUrl + ", image="
+                + Arrays.toString(image) + "]";
     }
 
 }

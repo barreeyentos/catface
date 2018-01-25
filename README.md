@@ -53,16 +53,28 @@ There is a provided sample request in the `postman_collection` folder.  Import i
 **Request Body:** 
 `Content-Type:` application/json
 
+As an image url
 ```json
 {
   "confidenceThreshold": 0.85,
   "imageUrl": "https://somewebsite.com/catimage.txt"
 }
 ```
-
+As a text array
+```json
+{
+  "confidenceThreshold": 0.85,
+  "image": [["+"," "," ","+"],
+			["+","+","+","+"],
+			["+"," "," ","+"],
+			[" ","+","+"," "]]
+}
+```
 `confidenceThreshold:` Defines the minimum confidence needed to elicit a catface response.  This value must be a double between **0.0 - 1.0** inclusive.
 
+The image can be sent in one of two ways:
 `imageUrl:` This is the location of the cat image to analyze.  This can either be online "http://" or local file "file://".
+`image:` a text matrix
 
 **Successful Response:** 
 `Status:` 200
@@ -82,6 +94,7 @@ There is a provided sample request in the `postman_collection` folder.  Import i
 	]
 }
 ```
+
 
 A successful response can send zero or more found cat faces with their associated confidence and position.
 

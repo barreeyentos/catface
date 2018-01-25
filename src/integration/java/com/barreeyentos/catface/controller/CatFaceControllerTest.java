@@ -2,6 +2,9 @@ package com.barreeyentos.catface.controller;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
@@ -32,6 +35,24 @@ public class CatFaceControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
+
+    @Test
+    public void testPerfectCatWithTextArray() {
+        CatFaceRequest request = new CatFaceRequest();
+        request.setImage(CatFacesImages.PERFECT_CAT);
+        request.setConfidenceThreshold(0.7f);
+
+        ResponseEntity<CatFaceList> result = restTemplate.postForEntity(CAT_FACE_URL, request, CatFaceList.class);
+
+        verify(imageFetcher, never()).fetch(anyString());
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(result.getBody()).isNotNull();
+        CatFaceList faces = result.getBody();
+        assertThat(faces.getCatFaces()).hasSize(1);
+        assertThat(faces.getCatFaces().get(0).getConfidence()).isCloseTo(1.00, within(0.001));
+        assertThat(faces.getCatFaces().get(0).getPosition()).isEqualTo(Position.of(0, 0));
+    }
 
     @Test
     public void testPerfectCat() {

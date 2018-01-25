@@ -60,4 +60,30 @@ public class CatFaceControllerValidationTest {
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
     }
+
+    @Test
+    public void testImageNotSent() {
+
+        CatFaceRequest request = new CatFaceRequest();
+        request.setConfidenceThreshold(1.10f);
+
+        ResponseEntity<CatFaceList> result = restTemplate.postForEntity(CAT_FACE_URL, request, CatFaceList.class);
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+    }
+
+    @Test
+    public void testImageUrlAndImageSent() {
+
+        CatFaceRequest request = new CatFaceRequest();
+        request.setConfidenceThreshold(1.10f);
+        request.setImageUrl("url");
+        request.setImage(new char[][] { { '1' } });
+
+        ResponseEntity<CatFaceList> result = restTemplate.postForEntity(CAT_FACE_URL, request, CatFaceList.class);
+
+        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+    }
 }
