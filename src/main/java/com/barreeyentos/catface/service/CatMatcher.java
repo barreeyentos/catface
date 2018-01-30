@@ -5,5 +5,5 @@ import com.barreeyentos.catface.dto.PartialImage;
 
 @FunctionalInterface
 public interface CatMatcher {
-    CatFace match(PartialImage image, double confidenceThreshold);
+    CatFace match(char[][] image, PartialImage partialImage, double confidenceThreshold);
 }

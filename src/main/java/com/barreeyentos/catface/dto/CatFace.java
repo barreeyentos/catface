@@ -11,6 +11,7 @@ public class CatFace {
 
     private double confidence;
     private Position position;
+    private Dimension dimension;
 
     public double getConfidence() {
         return confidence;
@@ -28,6 +29,14 @@ public class CatFace {
         this.position = position;
     }
 
+    public Dimension getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -35,6 +44,7 @@ public class CatFace {
         long temp;
         temp = Double.doubleToLongBits(confidence);
         result = prime * result + (int) (temp ^ (temp >>> 32));
+        result = prime * result + ((dimension == null) ? 0 : dimension.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         return result;
     }
@@ -50,6 +60,11 @@ public class CatFace {
         CatFace other = (CatFace) obj;
         if (Double.doubleToLongBits(confidence) != Double.doubleToLongBits(other.confidence))
             return false;
+        if (dimension == null) {
+            if (other.dimension != null)
+                return false;
+        } else if (!dimension.equals(other.dimension))
+            return false;
         if (position == null) {
             if (other.position != null)
                 return false;
@@ -60,7 +75,7 @@ public class CatFace {
 
     @Override
     public String toString() {
-        return "CatFace [confidence=" + confidence + ", position=" + position + "]";
+        return "CatFace [confidence=" + confidence + ", position=" + position + ", dimension=" + dimension + "]";
     }
 
 }

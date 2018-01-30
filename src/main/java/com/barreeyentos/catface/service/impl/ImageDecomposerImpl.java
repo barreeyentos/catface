@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.barreeyentos.catface.dto.Dimension;
 import com.barreeyentos.catface.dto.PartialImage;
 import com.barreeyentos.catface.dto.Position;
 import com.barreeyentos.catface.service.ImageDecomposer;
@@ -23,9 +24,7 @@ import com.barreeyentos.catface.service.ImageDecomposer;
 public class ImageDecomposerImpl implements ImageDecomposer {
     private static final Logger logger = LoggerFactory.getLogger(ImageDecomposerImpl.class);
 
-    private static final char EMPTY_SPACE = ' ';
-    private int width;
-    private int height;
+    private Dimension dimension;
     private double widthFactor;
     private double heightFactor;
 
@@ -33,8 +32,7 @@ public class ImageDecomposerImpl implements ImageDecomposer {
     public ImageDecomposerImpl(@Value("${decompose.width}") int width, @Value("${decompose.height}") int height,
             @Value("${decompose.widthFactor}") double widthFactor,
             @Value("${decompose.heightFactor}") double heightFactor) {
-        this.width = width;
-        this.height = height;
+        this.dimension = Dimension.of(width, height);
         this.widthFactor = widthFactor;
         this.heightFactor = heightFactor;
     }
@@ -45,8 +43,8 @@ public class ImageDecomposerImpl implements ImageDecomposer {
 
         logger.debug("ImageDecomposerImpl: decomposing image of size {} x {} (w x h)", image[0].length, image.length);
 
-        int widthIncrement = (int) Math.floor(width * widthFactor);
-        int heightIncrement = (int) Math.floor(height * heightFactor);
+        int widthIncrement = (int) Math.floor(dimension.getWidth() * widthFactor);
+        int heightIncrement = (int) Math.floor(dimension.getHeight() * heightFactor);
         int widthImages = (int) Math.ceil(image[0].length / (widthIncrement * 1.0));
         int heightImages = (int) Math.ceil(image.length / (heightIncrement * 1.0));
 
@@ -55,31 +53,16 @@ public class ImageDecomposerImpl implements ImageDecomposer {
         for (int w = 0; w < widthImages; w++) {
             for (int h = 0; h < heightImages; h++) {
                 Position originalPosition = Position.of(w * widthIncrement, h * heightIncrement);
-                char[] newImage = createFromImage(image, originalPosition);
 
                 PartialImage partialImage = new PartialImage();
                 partialImage.setPosition(originalPosition);
-                partialImage.setImage(newImage);
+                partialImage.setDimension(dimension);
 
                 partialImages.add(partialImage);
             }
         }
 
         return partialImages;
-    }
-
-    private char[] createFromImage(char[][] image, Position originalPosition) {
-        char[] decomposed = new char[width * height];
-        for (int r = 0; r < height; ++r) {
-            for (int c = 0; c < width; ++c) {
-                if (c + originalPosition.getX() < image[0].length && r + originalPosition.getY() < image.length) {
-                    decomposed[c + r * width] = image[r + originalPosition.getY()][c + originalPosition.getX()];
-                } else {
-                    decomposed[c + r * width] = EMPTY_SPACE;
-                }
-            }
-        }
-        return decomposed;
     }
 
 }

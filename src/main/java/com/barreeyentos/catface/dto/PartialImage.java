@@ -1,14 +1,12 @@
 package com.barreeyentos.catface.dto;
 
-import java.util.Arrays;
-
 /*
  * PartialImage represents a small decomposition of the original image
  * with the original position within the image
  */
 public class PartialImage {
     Position position;
-    char[] image;
+    Dimension dimension;
 
     public Position getPosition() {
         return position;
@@ -18,19 +16,19 @@ public class PartialImage {
         this.position = position;
     }
 
-    public char[] getImage() {
-        return image;
+    public Dimension getDimension() {
+        return dimension;
     }
 
-    public void setImage(char[] image) {
-        this.image = image;
+    public void setDimension(Dimension dimension) {
+        this.dimension = dimension;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + Arrays.hashCode(image);
+        result = prime * result + ((dimension == null) ? 0 : dimension.hashCode());
         result = prime * result + ((position == null) ? 0 : position.hashCode());
         return result;
     }
@@ -44,7 +42,10 @@ public class PartialImage {
         if (getClass() != obj.getClass())
             return false;
         PartialImage other = (PartialImage) obj;
-        if (!Arrays.equals(image, other.image))
+        if (dimension == null) {
+            if (other.dimension != null)
+                return false;
+        } else if (!dimension.equals(other.dimension))
             return false;
         if (position == null) {
             if (other.position != null)
@@ -56,7 +57,7 @@ public class PartialImage {
 
     @Override
     public String toString() {
-        return "PartialImage [position=" + position + ", image=" + Arrays.toString(image) + "]";
+        return "PartialImage [position=" + position + ", dimension=" + dimension + "]";
     }
 
 }
