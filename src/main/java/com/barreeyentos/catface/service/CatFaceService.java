@@ -3,8 +3,7 @@ package com.barreeyentos.catface.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ForkJoinTask;
-import java.util.stream.Collectors;
+import java.util.concurrent.ForkJoinPool;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,10 +55,8 @@ public class CatFaceService {
 
         List<PartialImage> decomposedImages = imageDecomposer.decompose(normalizedImage);
 
-        List<MatchTask> tasks = decomposedImages.stream().map(partialImage -> new MatchTask(catMatcher, normalizedImage,
-                partialImage, catfaceRequest.getConfidenceThreshold())).collect(Collectors.toList());
-        allResults = ForkJoinTask.invokeAll(tasks).stream().map(ForkJoinTask::join).filter(Objects::nonNull)
-                .collect(Collectors.toList());
+        allResults = ForkJoinPool.commonPool().invoke(
+                new MatchTask(catMatcher, normalizedImage, decomposedImages, catfaceRequest.getConfidenceThreshold()));
 
         // TODO: store results with original image to s3 to analyze and retrain model
 
