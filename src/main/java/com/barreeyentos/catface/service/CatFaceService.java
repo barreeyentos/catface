@@ -3,6 +3,7 @@ package com.barreeyentos.catface.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ForkJoinPool;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.barreeyentos.catface.dto.CatFace;
 import com.barreeyentos.catface.dto.CatFaceRequest;
 import com.barreeyentos.catface.dto.PartialImage;
+import com.barreeyentos.catface.service.impl.MatchTask;
 
 /*
  * CatFaceService takes a request and scans subsections of the image for
@@ -53,12 +55,8 @@ public class CatFaceService {
 
         List<PartialImage> decomposedImages = imageDecomposer.decompose(normalizedImage);
 
-        decomposedImages.forEach(partialImage -> {
-            CatFace match = catMatcher.match(normalizedImage, partialImage, catfaceRequest.getConfidenceThreshold());
-            if (Objects.nonNull(match)) {
-                allResults.add(match);
-            }
-        });
+        allResults = ForkJoinPool.commonPool().invoke(
+                new MatchTask(catMatcher, normalizedImage, decomposedImages, catfaceRequest.getConfidenceThreshold()));
 
         // TODO: store results with original image to s3 to analyze and retrain model
 
