@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.barreeyentos.catface.dto.Dimension;
 import com.barreeyentos.catface.dto.PartialImage;
 import com.barreeyentos.catface.dto.Position;
 import com.barreeyentos.catface.service.ImageDecomposer;
@@ -84,20 +85,19 @@ public class ImageDecomposerImplTest {
 
         PartialImage expectedImage1 = new PartialImage();
         expectedImage1.setPosition(Position.of(0, 0));
-        expectedImage1.setImage(new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-                'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x' });
+        expectedImage1.setDimension(Dimension.of(WIDTH, HEIGHT));
+
         PartialImage expectedImage2 = new PartialImage();
         expectedImage2.setPosition(Position.of(3, 0));
-        expectedImage2.setImage(new char[] { 'd', 'e', 'f', ' ', ' ', ' ', 'j', 'k', 'l', ' ', ' ', ' ', 'p', 'q', 'r',
-                ' ', ' ', ' ', 'v', 'w', 'x', ' ', ' ', ' ', });
+        expectedImage2.setDimension(Dimension.of(WIDTH, HEIGHT));
+
         PartialImage expectedImage3 = new PartialImage();
         expectedImage3.setPosition(Position.of(0, 2));
-        expectedImage3.setImage(new char[] { 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', ' ', ' ', ' ',
-                ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' });
+        expectedImage3.setDimension(Dimension.of(WIDTH, HEIGHT));
+
         PartialImage expectedImage4 = new PartialImage();
         expectedImage4.setPosition(Position.of(3, 2));
-        expectedImage4.setImage(new char[] { 'p', 'q', 'r', ' ', ' ', ' ', 'v', 'w', 'x', ' ', ' ', ' ', ' ', ' ', ' ',
-                ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', });
+        expectedImage4.setDimension(Dimension.of(WIDTH, HEIGHT));
 
         assertThat(decompose).containsExactlyInAnyOrder(expectedImage1, expectedImage2, expectedImage3, expectedImage4);
 

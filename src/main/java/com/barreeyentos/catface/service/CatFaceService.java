@@ -53,8 +53,8 @@ public class CatFaceService {
 
         List<PartialImage> decomposedImages = imageDecomposer.decompose(normalizedImage);
 
-        decomposedImages.forEach(image -> {
-            CatFace match = catMatcher.match(image, catfaceRequest.getConfidenceThreshold());
+        decomposedImages.forEach(partialImage -> {
+            CatFace match = catMatcher.match(normalizedImage, partialImage, catfaceRequest.getConfidenceThreshold());
             if (Objects.nonNull(match)) {
                 allResults.add(match);
             }
