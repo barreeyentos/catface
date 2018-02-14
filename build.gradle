@@ -25,25 +25,60 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-    	compile 'ch.qos.logback:logback-core:1.1.9'
-    	compile 'ch.qos.logback:logback-access:1.1.9'
-    	compile 'org.apache.commons:commons-collections4:4.1'
-	compile 'org.springframework.boot:spring-boot-starter-actuator'
-	compile 'org.springframework.boot:spring-boot-starter-web'
-	compile 'org.springframework.boot:spring-boot-starter-web-services'
-	compile 'org.springframework.boot:spring-boot-starter-security'
-	compile 'org.slf4j:slf4j-api:1.7.22'
-    	
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+sourceSets {
+    integrationTest {
+        java {
+	    srcDir file('src/integration/java')
+	    resources.srcDir file('src/acceptanceTest/resources')
+	    compileClasspath += main.output + test.output + configurations.testRuntime
+	    runtimeClasspath += output + compileClasspath
+        }
+    }
 }
 
-sourceSets {
-  test {
-    java.srcDirs 'src/test/java', 'src/integration/java'
+
+dependencies {
+    	compile( 'ch.qos.logback:logback-core:1.1.9',
+    	'ch.qos.logback:logback-access:1.1.9',
+    	'org.apache.commons:commons-collections4:4.1',
+	'org.springframework.boot:spring-boot-starter-actuator',
+	'org.springframework.boot:spring-boot-starter-web',
+	'org.springframework.boot:spring-boot-starter-web-services',
+	'org.springframework.boot:spring-boot-starter-security',
+	'org.slf4j:slf4j-api:1.7.22')
+    	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+
+test {
+  reports {
+    html.destination = file("$buildDir/reports/unit-test")
+    junitXml.destination = file("$buildDir/unit-test-results")
   }
 }
+
+task integrationTest(type: Test) {
+  description = 'Runs the integration tests'
+  group = 'verification'
+  testClassesDirs = sourceSets.integrationTest.output
+  classpath = sourceSets.integrationTest.runtimeClasspath
+
+  binResultsDir = file("$buildDir/integration-test-results/binary/integrationTest")
+
+  reports {
+    html.destination = file("$buildDir/reports/integration-test")
+    junitXml.destination = file("$buildDir/integration-test-results")
+  }
+
+  mustRunAfter tasks.test
+}
+
 
 bootRun {
   environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: "dev"
 }
+
+
+check.dependsOn integrationTest
+

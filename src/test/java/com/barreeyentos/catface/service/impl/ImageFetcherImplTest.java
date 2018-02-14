@@ -7,9 +7,9 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.barreeyentos.catface.controller.CatFacesImages;
 import com.barreeyentos.catface.exception.UnreachableImageException;
 import com.barreeyentos.catface.service.ImageFetcher;
+import com.barreeyentos.catface.util.CatFacesImages;
 
 public class ImageFetcherImplTest {
 
