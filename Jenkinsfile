@@ -11,7 +11,7 @@ pipeline {
         }
         stage('Integration Test') {
           steps {
-            sh './gradle clean integrationTest'
+            sh './gradlew clean integrationTest'
             junit 'build/integration-test-results/**.xml'
           }
         }
