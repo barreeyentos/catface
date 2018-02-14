@@ -23,6 +23,7 @@ import com.barreeyentos.catface.dto.CatFaceRequest;
 import com.barreeyentos.catface.dto.Position;
 import com.barreeyentos.catface.exception.UnreachableImageException;
 import com.barreeyentos.catface.service.ImageFetcher;
+import com.barreeyentos.catface.util.CatFacesImages;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)

@@ -1,4 +1,4 @@
-package com.barreeyentos.catface.controller;
+package com.barreeyentos.catface.util;
 
 /*
  * Helper for testing
