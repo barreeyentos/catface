@@ -1,22 +1,18 @@
 pipeline {
   agent any
   stages {
-    stage('Checkout') {
-      agent any
-      steps {
-        git(url: 'git@github.com:barreeyentos/catface.git', branch: 'master')
-      }
-    }
     stage('Test') {
       parallel {
         stage('Test') {
           steps {
             sh './gradlew clean test'
+            junit 'build/unit-test-results/**.xml'
           }
         }
         stage('Integration Test') {
           steps {
             sh './gradle clean integrationTest'
+            junit 'build/integration-test-results/**.xml'
           }
         }
       }
