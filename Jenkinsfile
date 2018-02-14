@@ -5,13 +5,13 @@ pipeline {
       parallel {
         stage('Test') {
           steps {
-            sh './gradlew clean test'
+            sh './gradlew test'
             junit 'build/unit-test-results/**.xml'
           }
         }
         stage('Integration Test') {
           steps {
-            sh './gradlew clean integrationTest'
+            sh './gradlew integrationTest'
             junit 'build/integration-test-results/**.xml'
           }
         }
@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Build') {
       steps {
-        sh './gradlew clean build'
+        sh './gradlew build'
       }
     }
   }
