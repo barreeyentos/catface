@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "decompose.width",
+    "type": "java.lang.Integer",
+    "description": "An input image is decomposed into smaller images that have given width 'decompose.width'"
+  },
+  {
+    "name": "decompose.height",
+    "type": "java.lang.Integer",
+    "description": "An input image is decomposed into smaller images that have given height 'decompose.height'"
+  },
+  {
+    "name": "decompose.width-factor",
+    "type": "java.lang.Double",
+    "description": "A description for 'decompose.width-factor'"
+  },
+  {
+    "name": "decompose.height-factor",
+    "type": "java.lang.Double",
+    "description": "A description for 'decompose.height-factor'"
+  }
+]}

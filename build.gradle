@@ -1,20 +1,27 @@
 buildscript {
 	ext {
-		springBootVersion = '1.5.9.RELEASE'
+		springBootVersion = '2.0.1.RELEASE'
 	}
 	repositories {
 		mavenCentral()
 	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.0.1.RELEASE'
 }
 
 apply plugin: 'java'
+apply plugin: 'io.spring.dependency-management'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
 
-jar {
+dependencyManagement {
+	imports {
+		mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+	}
+}
+
+bootJar {
 	baseName = 'catface'
 	version = '1.0.0'
 }
@@ -38,16 +45,20 @@ sourceSets {
 
 
 dependencies {
-    	compile( 'ch.qos.logback:logback-core:1.1.9',
-    	'ch.qos.logback:logback-access:1.1.9',
-    	'org.apache.commons:commons-collections4:4.1',
-	'org.springframework.boot:spring-boot-starter-actuator',
-	'org.springframework.boot:spring-boot-starter-web',
-	'org.springframework.boot:spring-boot-starter-web-services',
-	'org.springframework.boot:spring-boot-starter-security',
-	'org.slf4j:slf4j-api:1.7.22')
+    	compile(
+	    	'ch.qos.logback:logback-core',
+	    	'ch.qos.logback:logback-access',
+	    	'org.apache.commons:commons-collections4:4.1',
+		'org.slf4j:slf4j-api:1.7.25',
+		'org.springframework.boot:spring-boot-starter-actuator',
+		'org.springframework.boot:spring-boot-starter-web',
+		'org.springframework.boot:spring-boot-starter-web-services',
+		'org.springframework.boot:spring-boot-starter-security'
+	)
     	
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile(
+		'org.springframework.boot:spring-boot-starter-test'
+	)
 
 }
 
