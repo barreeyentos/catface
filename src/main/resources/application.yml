@@ -4,11 +4,15 @@ decompose:
   widthFactor: 0.10
   heightFactor: 0.10
 management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: '*'
+spring:
   security:
-    enabled: true
-security:
-  basic:
-    enabled: true
-  user:
-    name: <insert_user>
-    password: <insert_password>
+    user:
+      name: user
+      password: pass
+      roles:
+      - ACTUATOR
